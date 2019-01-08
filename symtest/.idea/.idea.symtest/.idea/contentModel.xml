@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="$APPLICATION_CONFIG_DIR$/extensions" t="IncludeRecursive" />
+    <e p="$APPLICATION_CONFIG_DIR$/scratches" t="IncludeRecursive" />
+    <e p="$USER_HOME$/.Rider2018.2/system/extResources" t="IncludeRecursive" />
+    <e p="$USER_HOME$/.Rider2018.2/system/resharper-host/local/Transient/ReSharperHost/v182/SolutionCaches/_symtest.1099294719.00" t="ExcludeRecursive" />
+    <e p="$PROJECT_DIR$" t="IncludeRecursive">
+      <e p="Program.cs" t="Include" />
+      <e p="Properties" t="Include">
+        <e p="launchSettings.json" t="Include" />
+      </e>
+      <e p="Startup.cs" t="Include" />
+      <e p="appsettings.Development.json" t="Include" />
+      <e p="appsettings.json" t="Include" />
+      <e p="bin" t="ExcludeRecursive" />
+      <e p="obj" t="ExcludeRecursive">
+        <e p="Debug" t="Include">
+          <e p="netcoreapp2.2" t="Include">
+            <e p="symtest.AssemblyInfo.cs" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="symtest.csproj" t="IncludeRecursive" />
+      <e p="symtest.sln" t="IncludeFlat" />
+    </e>
+    <e p="$PROJECT_DIR$/../symtest.Client" t="IncludeRecursive">
+      <e p="Program.cs" t="Include" />
+      <e p="bin" t="ExcludeRecursive" />
+      <e p="obj" t="ExcludeRecursive">
+        <e p="Debug" t="Include">
+          <e p="netcoreapp2.2" t="Include">
+            <e p="symtest.Client.AssemblyInfo.cs" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="symtest.Client.csproj" t="IncludeRecursive" />
+    </e>
+    <e p="$PROJECT_DIR$/../symtest.Logic" t="IncludeRecursive">
+      <e p="Class1.cs" t="Include" />
+      <e p="bin" t="ExcludeRecursive" />
+      <e p="obj" t="ExcludeRecursive">
+        <e p="Debug" t="Include">
+          <e p="netcoreapp2.2" t="Include">
+            <e p="symtest.Logic.AssemblyInfo.cs" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="symtest.Logic.csproj" t="IncludeRecursive" />
+    </e>
+    <e p="$PROJECT_DIR$/../symtest.Tests" t="IncludeRecursive">
+      <e p="Class1.cs" t="Include" />
+      <e p="bin" t="ExcludeRecursive" />
+      <e p="obj" t="ExcludeRecursive">
+        <e p="Debug" t="Include">
+          <e p="netcoreapp2.2" t="Include">
+            <e p="symtest.Tests.AssemblyInfo.cs" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="symtest.Tests.csproj" t="IncludeRecursive" />
+    </e>
+    <e p="$PROJECT_DIR$/../symtest.Tests.Integration" t="IncludeRecursive">
+      <e p="Class1.cs" t="Include" />
+      <e p="bin" t="ExcludeRecursive" />
+      <e p="obj" t="ExcludeRecursive">
+        <e p="Debug" t="Include">
+          <e p="netcoreapp2.2" t="Include">
+            <e p="symtest.Tests.Integration.AssemblyInfo.cs" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="symtest.Tests.Integration.csproj" t="IncludeRecursive" />
+    </e>
+  </component>
+</project>

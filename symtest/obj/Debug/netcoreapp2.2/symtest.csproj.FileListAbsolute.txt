@@ -1,0 +1,14 @@
+/home/pk/projects/symtest/symtest/bin/Debug/netcoreapp2.2/symtest.deps.json
+/home/pk/projects/symtest/symtest/bin/Debug/netcoreapp2.2/symtest.runtimeconfig.json
+/home/pk/projects/symtest/symtest/bin/Debug/netcoreapp2.2/symtest.runtimeconfig.dev.json
+/home/pk/projects/symtest/symtest/bin/Debug/netcoreapp2.2/symtest.dll
+/home/pk/projects/symtest/symtest/bin/Debug/netcoreapp2.2/symtest.pdb
+/home/pk/projects/symtest/symtest/obj/Debug/netcoreapp2.2/symtest.csprojAssemblyReference.cache
+/home/pk/projects/symtest/symtest/obj/Debug/netcoreapp2.2/symtest.csproj.CoreCompileInputs.cache
+/home/pk/projects/symtest/symtest/obj/Debug/netcoreapp2.2/symtest.RazorAssemblyInfo.cache
+/home/pk/projects/symtest/symtest/obj/Debug/netcoreapp2.2/symtest.RazorAssemblyInfo.cs
+/home/pk/projects/symtest/symtest/obj/Debug/netcoreapp2.2/symtest.AssemblyInfoInputs.cache
+/home/pk/projects/symtest/symtest/obj/Debug/netcoreapp2.2/symtest.AssemblyInfo.cs
+/home/pk/projects/symtest/symtest/obj/Debug/netcoreapp2.2/symtest.RazorTargetAssemblyInfo.cache
+/home/pk/projects/symtest/symtest/obj/Debug/netcoreapp2.2/symtest.dll
+/home/pk/projects/symtest/symtest/obj/Debug/netcoreapp2.2/symtest.pdb

@@ -1,0 +1,9 @@
+/home/pk/projects/symtest/symtest.Tests/bin/Debug/netcoreapp2.2/symtest.Tests.deps.json
+/home/pk/projects/symtest/symtest.Tests/bin/Debug/netcoreapp2.2/symtest.Tests.dll
+/home/pk/projects/symtest/symtest.Tests/bin/Debug/netcoreapp2.2/symtest.Tests.pdb
+/home/pk/projects/symtest/symtest.Tests/obj/Debug/netcoreapp2.2/symtest.Tests.csprojAssemblyReference.cache
+/home/pk/projects/symtest/symtest.Tests/obj/Debug/netcoreapp2.2/symtest.Tests.csproj.CoreCompileInputs.cache
+/home/pk/projects/symtest/symtest.Tests/obj/Debug/netcoreapp2.2/symtest.Tests.AssemblyInfoInputs.cache
+/home/pk/projects/symtest/symtest.Tests/obj/Debug/netcoreapp2.2/symtest.Tests.AssemblyInfo.cs
+/home/pk/projects/symtest/symtest.Tests/obj/Debug/netcoreapp2.2/symtest.Tests.dll
+/home/pk/projects/symtest/symtest.Tests/obj/Debug/netcoreapp2.2/symtest.Tests.pdb
