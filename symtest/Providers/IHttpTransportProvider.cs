@@ -1,6 +1,6 @@
 namespace symtest.Providers
 {
-    using Models;
+    using Common.Models;
 
     public interface IHttpTransportProvider
     {

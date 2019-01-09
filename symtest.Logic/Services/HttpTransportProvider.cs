@@ -1,6 +1,6 @@
 namespace symtest.Logic.Services
 {
-    using Models;
+    using Common.Models;
     using Providers;
 
     public class HttpTransportProvider : IHttpTransportProvider
