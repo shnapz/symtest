@@ -15,4 +15,13 @@
       <ProjectReference Include="..\symtest.Common\symtest.Common.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Content Include="..\.travis.yml">
+        <Link>.travis.yml</Link>
+      </Content>
+      <Content Include="..\Dockerfile">
+        <Link>Dockerfile</Link>
+      </Content>
+    </ItemGroup>
+
 </Project>

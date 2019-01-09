@@ -1,3 +1,32 @@
 {
-  
+  "Transport" : [
+    {
+      "Type": "HTTP",
+      "Endpoints": [
+        {
+          "Url": "",
+          "Templates": [
+            {
+              "Method": "POST",
+              "Density": 1,
+              "Distribution": 0,
+              "Duration": 1000,
+              "Headers": {
+              }
+            },
+            {
+              "Method": "POST",
+              "Headers": {
+              }
+            },
+            {
+              "Method": "POST",
+              "Headers": {
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ] 
 }

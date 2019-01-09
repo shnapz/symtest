@@ -7,7 +7,6 @@ namespace symtest.Listeners
 
     public class RabbitListener
     {
-        private readonly ConnectionFactory _factory;
         private readonly IConnection _connection;
         private readonly IModel _channel;
 
@@ -16,10 +15,14 @@ namespace symtest.Listeners
         public RabbitListener(string hostName, 
                               string queueName)
         {
-            _queueName = queueName ?? throw new ArgumentNullException(nameof(queueName));
+            _queueName = queueName != null && !string.IsNullOrEmpty(queueName) ? queueName : throw new ArgumentException(nameof(queueName));
             
-            _factory = new ConnectionFactory { HostName = hostName };
-            _connection = _factory.CreateConnection();
+            var factory = new ConnectionFactory
+            {
+                HostName = hostName != null && !string.IsNullOrEmpty(hostName) ? hostName : throw new ArgumentException(nameof(hostName))
+            };
+            
+            _connection = factory.CreateConnection();
             _channel = _connection.CreateModel();
         }
         
