@@ -1,14 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "symtest", "symtest.csproj", "{9EDC1BCA-47F7-448C-804F-4C5F279F8D08}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "symtest", "symtest\symtest.csproj", "{9EDC1BCA-47F7-448C-804F-4C5F279F8D08}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "symtest.Tests", "..\symtest.Tests\symtest.Tests.csproj", "{FC884D35-E2C0-419B-86D1-AA7C88DACA45}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "symtest.Tests", "symtest.Tests\symtest.Tests.csproj", "{FC884D35-E2C0-419B-86D1-AA7C88DACA45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "symtest.Client", "..\symtest.Client\symtest.Client.csproj", "{06743C15-D594-4799-B56D-2B0D56141E04}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "symtest.Client", "symtest.Client\symtest.Client.csproj", "{06743C15-D594-4799-B56D-2B0D56141E04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "symtest.Tests.Integration", "..\symtest.Tests.Integration\symtest.Tests.Integration.csproj", "{CAB8663B-7C72-4A5D-B298-C444C0436640}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "symtest.Tests.Integration", "symtest.Tests.Integration\symtest.Tests.Integration.csproj", "{CAB8663B-7C72-4A5D-B298-C444C0436640}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "symtest.Logic", "..\symtest.Logic\symtest.Logic.csproj", "{05D99A08-D045-4D85-BC13-61E238BBD084}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "symtest.Logic", "symtest.Logic\symtest.Logic.csproj", "{05D99A08-D045-4D85-BC13-61E238BBD084}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
