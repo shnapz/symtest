@@ -1,4 +1,4 @@
-namespace symtest.Logic.Services
+namespace symtest.Services
 {
     using System;
     using System.Collections.Generic;

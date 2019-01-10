@@ -1,10 +1,13 @@
 ﻿namespace symtest
 {
     using Extensions;
+    using Listeners;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Providers;
+    using Services;
 
     public class Startup
     {
@@ -19,6 +22,9 @@
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddTransient<IHttpTransportProvider>(s => new HttpTransportProvider(Configuration[]));
+            
+            services.AddSingleton<RabbitListener>(s => new RabbitListener(Configuration["Host"], Configuration["Queue"]));
             services.AddHttpClient();
         }
 

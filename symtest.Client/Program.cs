@@ -13,7 +13,7 @@ namespace symtest.Client
             using(var connection = factory.CreateConnection())
             using(var channel = connection.CreateModel())
             {
-                channel.QueueDeclare(queue: "hello",
+                channel.QueueDeclare(queue: "worker_queue",
                     durable: false,
                     exclusive: false,
                     autoDelete: false,
@@ -23,7 +23,7 @@ namespace symtest.Client
                 var body = Encoding.UTF8.GetBytes(message);
 
                 channel.BasicPublish(exchange: "",
-                    routingKey: "hello",
+                    routingKey: "worker_queue",
                     basicProperties: null,
                     body: body);
                 Console.WriteLine(" [x] Sent {0}", message);
