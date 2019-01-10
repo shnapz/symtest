@@ -15,6 +15,11 @@ namespace symtest.Services
                 ? defaultTemplates
                 : throw new ArgumentException(nameof(defaultTemplates));
         }
+
+        public void ExecuteAllTests()
+        {
+            
+        }
         
         public string ExecuteTest(HttpRequestTemplate requestTemplate)
         {

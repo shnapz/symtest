@@ -1,10 +1,10 @@
 FROM microsoft/dotnet:2.2-sdk AS build
-WORKDIR /src
+WORKDIR /
 COPY *.sln ./
 COPY symtest/symtest.csproj symtest/
 RUN dotnet restore
 COPY . .
-WORKDIR /src/symtest
+WORKDIR /symtest
 RUN dotnet build -c Release -o /app -r alpine.3.6-x64
 
 FROM build AS publish
