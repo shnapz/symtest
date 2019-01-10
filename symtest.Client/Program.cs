@@ -10,11 +10,14 @@
     {
         static void Main(string[] args)
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json");
+            var boolUseDefault = true;
+            
+            if (args.Length > 0)
+            {
+                
+            }
 
-            var configuration = builder.Build();
+            var configuration = GetConfiguration();
             
             var factory = new ConnectionFactory { HostName = configuration["Host"] };
             using(var connection = factory.CreateConnection())
@@ -40,5 +43,10 @@
             Console.WriteLine(" Press [enter] to exit.");
             Console.ReadLine();
         }
+
+        static IConfiguration GetConfiguration()
+            => new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json").Build();
     }
 }
