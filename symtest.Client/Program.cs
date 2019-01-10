@@ -1,19 +1,26 @@
-﻿using System;
-
-namespace symtest.Client
+﻿namespace symtest.Client
 {
+    using System;
+    using System.IO;
     using System.Text;
+    using Microsoft.Extensions.Configuration;
     using RabbitMQ.Client;
 
     class Program
     {
         static void Main(string[] args)
         {
-            var factory = new ConnectionFactory() { HostName = "localhost" };
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json");
+
+            var configuration = builder.Build();
+            
+            var factory = new ConnectionFactory { HostName = configuration["Host"] };
             using(var connection = factory.CreateConnection())
             using(var channel = connection.CreateModel())
             {
-                channel.QueueDeclare(queue: "worker_queue",
+                channel.QueueDeclare(queue: configuration["Queue"],
                     durable: false,
                     exclusive: false,
                     autoDelete: false,
@@ -23,9 +30,10 @@ namespace symtest.Client
                 var body = Encoding.UTF8.GetBytes(message);
 
                 channel.BasicPublish(exchange: "",
-                    routingKey: "worker_queue",
+                    routingKey: configuration["Queue"],
                     basicProperties: null,
                     body: body);
+                
                 Console.WriteLine(" [x] Sent {0}", message);
             }
 
