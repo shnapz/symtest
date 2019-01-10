@@ -1,0 +1,9 @@
+language: csharp
+
+solution: symtest.sln
+
+mono: none
+dotnet: 2.2.102
+
+script:
+  - dotnet restore

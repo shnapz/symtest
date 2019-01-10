@@ -1,7 +1,6 @@
 FROM microsoft/dotnet:2.2.102-sdk-alpine3.8 AS build
 WORKDIR /app
 
-# copy csproj and restore as distinct layers
 COPY *.sln ./
 
 COPY symtest/symtest.csproj symtest/
@@ -14,7 +13,6 @@ COPY symtest.Client/symtest.Client.csproj symtest.Client/
 WORKDIR /app/symtest
 RUN dotnet restore
 
-# copy and publish app and libraries
 WORKDIR /app/
 COPY . .
 WORKDIR /app/symtest
