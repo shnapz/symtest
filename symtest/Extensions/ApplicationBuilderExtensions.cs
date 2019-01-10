@@ -7,11 +7,11 @@ namespace symtest.Extensions
 
     public static class ApplicationBuilderExtensions
     {
-        private static RabbitListener _listener;
+        private static BaseRabbitListener _listener;
 
         public static IApplicationBuilder UseRabbitListener(this IApplicationBuilder app)
         {
-            _listener = app.ApplicationServices.GetService<RabbitListener>();
+            _listener = app.ApplicationServices.GetService<BaseRabbitListener>();
 
             var lifetime = app.ApplicationServices.GetService<IApplicationLifetime>();
 
@@ -23,13 +23,9 @@ namespace symtest.Extensions
         }
 
         private static void OnStarted()
-        {
-            _listener.Register();
-        }
+            => _listener.Register();
 
         private static void OnStopping()
-        {
-            _listener.DeRegister();    
-        }
+            => _listener.DeRegister();
     }
 }

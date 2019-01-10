@@ -24,7 +24,7 @@
         {
             //services.AddTransient<IHttpTransportProvider>(s => new HttpTransportProvider(Configuration[]));
             
-            services.AddSingleton<RabbitListener>(s => new RabbitListener(Configuration["Host"], Configuration["Queue"]));
+            services.AddSingleton<BaseRabbitListener>(s => new RabbitListener(Configuration["Host"], Configuration["Queue"]));
             services.AddHttpClient();
         }
 
