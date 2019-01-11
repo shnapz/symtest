@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.2.102-sdk-alpine3.8 AS build
+FROM microsoft/dotnet:2.2-sdk-alpine3.8 AS build
 WORKDIR /app
 
 COPY *.sln ./
@@ -27,7 +27,7 @@ RUN dotnet publish -c Release -o out
 FROM rabbitmq:3.7.8-management-alpine
 CMD ["rabbitmq-server"]
 
-FROM microsoft/dotnet:2.2.1-runtime-alpine3.8 AS runtime
+FROM microsoft/dotnet:2.2-aspnetcore-runtime-alpine3.8 AS runtime
 WORKDIR /app
 COPY --from=build /app/symtest/out ./
 ENTRYPOINT ["dotnet", "symtest.dll"]
