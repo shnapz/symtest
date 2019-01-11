@@ -3,7 +3,7 @@ language: csharp
 solution: symtest.sln
 
 mono: none
-dotnet: 2.2.103
+dotnet: 2.2
 
 os:
   - linux
