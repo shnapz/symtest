@@ -8,6 +8,8 @@ dotnet: 2.2
 os:
   - linux
 
+dist: xenial
+
 install:
   - dotnet restore
   
