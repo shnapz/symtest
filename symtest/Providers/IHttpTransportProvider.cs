@@ -1,9 +1,11 @@
 namespace symtest.Providers
 {
+    using System.Net;
+    using System.Threading.Tasks;
     using Common.Models;
 
     public interface IHttpTransportProvider
     {
-        string ExecuteTest(HttpRequestTemplate requestTemplate);
+        Task<HttpStatusCode> ExecuteTest(HttpRequestTemplate requestTemplate);
     }
 }
