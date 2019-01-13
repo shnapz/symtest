@@ -7,7 +7,7 @@ COPY symtest/symtest.csproj symtest/
 COPY symtest.Tests/symtest.Tests.csproj symtest.Tests/
 COPY symtest.Tests.Integration/symtest.Tests.Integration.csproj symtest.Tests.Integration/
 COPY symtest.Common/symtest.Common.csproj symtest.Common/
-COPY symtest.Logic/symtest.Logic.csproj symtest.Logic/
+# COPY symtest.Logic/symtest.Logic.csproj symtest.Logic/
 COPY symtest.Client/symtest.Client.csproj symtest.Client/
 
 WORKDIR /app/symtest
