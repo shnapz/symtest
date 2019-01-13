@@ -1,5 +1,8 @@
 ﻿namespace symtest
 {
+    using System.Collections.Generic;
+    using System.Net.Http;
+    using Common.Models;
     using Extensions;
     using Listeners;
     using Microsoft.AspNetCore.Builder;
@@ -18,17 +21,25 @@
 
         public IConfiguration Configuration { get; }
         
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddTransient<IHttpTransportProvider>(s => new HttpTransportProvider(Configuration[]));
-            
-            services.AddSingleton<BaseRabbitListener>(s => new RabbitListener(Configuration["Host"], Configuration["Queue"]));
             services.AddHttpClient();
+            
+            services.AddSingleton<IHttpTransportProvider>(context =>
+            {
+                IHttpClientFactory clientFactory = context.GetService<IHttpClientFactory>(); 
+                
+                return new HttpTransportProvider(clientFactory, GetDefaultTemplates(Configuration));
+            });
+
+            services.AddSingleton<BaseRabbitListener>(
+                context =>
+                {
+                    IHttpTransportProvider transportProvider = context.GetService<IHttpTransportProvider>();
+                    return new RabbitListener(transportProvider, Configuration["Host"], Configuration["Queue"]);
+                });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -37,8 +48,6 @@
             }
 
             app.UseRabbitListener();
-            
-            //app.Run(async (context) => { await context.Response.WriteAsync("Hello World!"); });
         }
 
         public void InitModules()
@@ -46,9 +55,10 @@
             
         }
 
-        public void GetDefaultTemplates()
+        public List<HttpRequestTemplate> GetDefaultTemplates(IConfiguration configuration)
         {
-            
+
+            return null;
         }
     }
 }

@@ -1,12 +1,21 @@
 namespace symtest.Listeners
 {
+    using System;
     using System.Text;
+    using Providers;
     using RabbitMQ.Client.Events;
 
     public class RabbitListener : BaseRabbitListener
     {
-        public RabbitListener(string hostName, 
-                              string queueName) : base(hostName, queueName) {}
+        private readonly IHttpTransportProvider _httpTransportProvider;
+        
+        public RabbitListener(IHttpTransportProvider httpTransportProvider,
+            string hostName,
+            string queueName) : base(hostName, queueName)
+        {
+            _httpTransportProvider =
+                httpTransportProvider ?? throw new ArgumentNullException(nameof(httpTransportProvider));
+        }
         
         public override void HandleMessage(EventingBasicConsumer consumer)
         {

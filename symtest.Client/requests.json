@@ -27,7 +27,7 @@
         },
         {
           "Url": "https://api.github.com//repos/aspnet/docs/issues?state=open&sort=created&direction=desc",
-          "Method": "POST",
+          "Method": "GET",
           "Density": 4,
           "Distribution": 0.7,
           "Duration": 2000,

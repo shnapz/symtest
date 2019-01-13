@@ -1,4 +1,4 @@
-namespace symtest.Listeners
+namespace symtest.Providers
 {
     using System;
     using RabbitMQ.Client;
