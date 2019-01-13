@@ -1,4 +1,4 @@
-namespace symtest.Providers
+namespace symtest.Interfaces
 {
     using System.Collections.Generic;
     using System.Net;

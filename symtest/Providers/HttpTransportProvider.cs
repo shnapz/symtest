@@ -1,4 +1,4 @@
-namespace symtest.Services
+namespace symtest.Providers
 {
     using System;
     using System.Collections.Generic;
@@ -7,7 +7,7 @@ namespace symtest.Services
     using System.Threading;
     using System.Threading.Tasks;
     using Common.Models;
-    using Providers;
+    using Interfaces;
 
     public class HttpTransportProvider : IHttpTransportProvider
     {

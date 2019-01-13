@@ -1,6 +1,0 @@
-version: '0.0.1'
-
-services:
-  man:
-    build: .
-    image: pk/symtest:v0.0.1

@@ -1,10 +1,10 @@
 namespace symtest.Extensions
 {
     using Listeners;
+    using Listeners.Base;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.DependencyInjection;
-    using Providers;
 
     public static class ApplicationBuilderExtensions
     {

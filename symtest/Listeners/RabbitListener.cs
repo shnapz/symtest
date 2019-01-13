@@ -2,7 +2,11 @@ namespace symtest.Listeners
 {
     using System;
     using System.Text;
-    using Providers;
+    using Base;
+    using Common;
+    using Common.Models;
+    using Interfaces;
+    using Newtonsoft.Json;
     using RabbitMQ.Client.Events;
 
     public class RabbitListener : BaseRabbitListener
@@ -23,6 +27,17 @@ namespace symtest.Listeners
             {
                 var body = ea.Body;
                 var message = Encoding.UTF8.GetString(body);
+
+                if (message == Constants.UseProvidedTemplates)
+                {
+                    _httpTransportProvider.ExecuteAllTests();
+                }
+                else
+                {
+                    HttpRequestTemplate templateToTest = JsonConvert.DeserializeObject<HttpRequestTemplate>(message);
+
+                    _httpTransportProvider.ExecuteTest(templateToTest);
+                }
             };
         }
     }
