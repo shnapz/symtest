@@ -3,7 +3,7 @@
     "Type": "HTTP",
     "Templates": [
       {
-        "Url": "https://api.github.com//repos/aspnet/docs/issues?state=open&sort=created&direction=desc",
+        "Url": "https://api.github.com/repos/aspnet/docs/issues?state=open&sort=created&direction=desc",
         "Method": "GET",
         "Density": 1,
         "Distribution": 0.5,
@@ -14,7 +14,7 @@
         }
       },
       {
-        "Url": "https://api.github.com//repos/aspnet/docs/issues?state=open&sort=created&direction=desc",
+        "Url": "https://api.github.com/repos/aspnet/docs/issues?state=open&sort=created&direction=desc",
         "Method": "POST",
         "Density": 2,
         "Distribution": 0.33,
@@ -25,7 +25,7 @@
         }
       },
       {
-        "Url": "https://api.github.com//repos/aspnet/docs/issues?state=open&sort=created&direction=desc",
+        "Url": "https://api.github.com/repos/aspnet/docs/issues?state=open&sort=created&direction=desc",
         "Method": "GET",
         "Density": 4,
         "Distribution": 0.7,
