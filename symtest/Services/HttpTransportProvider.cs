@@ -4,8 +4,8 @@ namespace symtest.Services
     using System.Collections.Generic;
     using System.Net;
     using System.Net.Http;
+    using System.Threading;
     using System.Threading.Tasks;
-    using System.Timers;
     using Common.Models;
     using Providers;
 
@@ -28,26 +28,56 @@ namespace symtest.Services
                 : throw new ArgumentException(nameof(defaultTemplates));
         }
 
-        public async Task<HttpStatusCode> ExecuteAllTests()
+        public async Task<List<HttpStatusCode?>> ExecuteAllTests()
         {
+            var results = new List<HttpStatusCode?>();
+            
             foreach (var requestTemplate in _defaultTemplates)
             {
-                await ExecuteTest(requestTemplate);
+                var requestResult = await ExecuteTest(requestTemplate);
+                results.Add(requestResult);
             }
             
-            return HttpStatusCode.Accepted;
+            return results;
         }
         
-        public async Task<HttpStatusCode> ExecuteTest(HttpRequestTemplate requestTemplate)
+        public async Task<HttpStatusCode?> ExecuteTest(HttpRequestTemplate requestTemplate)
         {
-            Timer timer = new Timer();
-            timer.Elapsed += new ElapsedEventHandler(ExecuteRequest);
-            timer.Interval = 5000;
-            timer.Enabled = true;
+            CancellationTokenSource cancellation = new CancellationTokenSource(
+                TimeSpan.FromMilliseconds(requestTemplate.Duration));
             
+            var result = await RepeatActionEvery(ExecuteRequest, 
+                                                 TimeSpan.FromSeconds(1),
+                                                 requestTemplate,
+                                                 Math.Pow(requestTemplate.Distribution, 1 / requestTemplate.Density),
+                                                 cancellation.Token);
+            
+            return result;
+        }
+
+        private async Task<HttpStatusCode?> RepeatActionEvery(Func<HttpRequestTemplate, double, Task<HttpStatusCode?>> action, 
+                                                              TimeSpan interval,
+                                                              HttpRequestTemplate requestTemplate,
+                                                              double requestInIntervalProbability,
+                                                              CancellationToken cancellationToken)
+        {
+            while (true)
+            {
+                var result = await action(requestTemplate, requestInIntervalProbability);
+                Task task = Task.Delay(interval, cancellationToken);
+
+                await task;
+
+                return result;
+            }
+        }
+
+        private async Task<HttpStatusCode?> ExecuteRequest(HttpRequestTemplate requestTemplate,
+                                                           double requestInIntervalProbability)
+        {
             double diceRoll = _random.NextDouble();
 
-            if (diceRoll < requestTemplate.Distribution)
+            if (diceRoll < requestInIntervalProbability)
             {
                 var request = new HttpRequestMessage(requestTemplate.Method,
                     requestTemplate.Url);
@@ -59,14 +89,10 @@ namespace symtest.Services
 
                 var response = await _client.SendAsync(request);
 
+                return response.StatusCode;
             }
 
-            return HttpStatusCode.Accepted;
-        }
-
-        private void ExecuteRequest(object source, ElapsedEventArgs e)
-        {
-            
+            return null;
         }
     }
 }

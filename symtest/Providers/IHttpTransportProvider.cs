@@ -6,6 +6,6 @@ namespace symtest.Providers
 
     public interface IHttpTransportProvider
     {
-        Task<HttpStatusCode> ExecuteTest(HttpRequestTemplate requestTemplate);
+        Task<HttpStatusCode?> ExecuteTest(HttpRequestTemplate requestTemplate);
     }
 }

@@ -2,29 +2,39 @@
   "Transport" : [
     {
       "Type": "HTTP",
-      "Endpoints": [
+      "Templates": [
         {
-          "Url": "",
-          "Templates": [
-            {
-              "Method": "POST",
-              "Density": 1,
-              "Distribution": 0.5,
-              "Duration": 1000,
-              "Headers": {
-              }
-            },
-            {
-              "Method": "POST",
-              "Headers": {
-              }
-            },
-            {
-              "Method": "POST",
-              "Headers": {
-              }
-            }
-          ]
+          "Url": "https://api.github.com//repos/aspnet/docs/issues?state=open&sort=created&direction=desc",
+          "Method": "GET",
+          "Density": 1,
+          "Distribution": 0.5,
+          "Duration": 1000,
+          "Headers": {
+            "Accept" : "application/vnd.github.v3+json",
+            "User-Agent" : "HttpClientFactory-Sample"
+          }
+        },
+        {
+          "Url": "https://api.github.com//repos/aspnet/docs/issues?state=open&sort=created&direction=desc",
+          "Method": "POST",
+          "Density": 2,
+          "Distribution": 0.33,
+          "Duration": 1000,
+          "Headers": {
+            "Accept" : "application/vnd.github.v3+json",
+            "User-Agent" : "HttpClientFactory-Sample"
+          }
+        },
+        {
+          "Url": "https://api.github.com//repos/aspnet/docs/issues?state=open&sort=created&direction=desc",
+          "Method": "POST",
+          "Density": 4,
+          "Distribution": 0.7,
+          "Duration": 2000,
+          "Headers": {
+            "Accept" : "application/vnd.github.v3+json",
+            "User-Agent" : "HttpClientFactory-Sample"
+          }
         }
       ]
     }
