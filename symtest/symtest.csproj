@@ -19,8 +19,8 @@
       <Content Include="..\.travis.yml">
         <Link>.travis.yml</Link>
       </Content>
-      <Content Include="..\docker-compose.yml">
-        <Link>docker-compose.yml</Link>
+      <Content Include="..\add_instance.sh">
+        <Link>add_instance.sh</Link>
       </Content>
       <Content Include="..\Dockerfile">
         <Link>Dockerfile</Link>

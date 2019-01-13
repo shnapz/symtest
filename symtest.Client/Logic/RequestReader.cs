@@ -1,6 +1,5 @@
 namespace symtest.Client.Logic
 {
-    using System.Collections.Generic;
     using System.IO;
     using Common.Models;
     using Newtonsoft.Json;
@@ -14,7 +13,7 @@ namespace symtest.Client.Logic
             _fileName = fileName;
         }
 
-        public TransportConfiguration[]  GetRequestTemplates()
+        public TransportConfiguration[] GetRequestTemplates()
         {
             using (StreamReader file = File.OpenText(_fileName))
             {
