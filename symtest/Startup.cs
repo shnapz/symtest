@@ -1,6 +1,5 @@
 ﻿namespace symtest
 {
-    using System.Collections.Generic;
     using System.Net.Http;
     using Common.Models;
     using Extensions;
@@ -11,6 +10,7 @@
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
     using Providers;
 
     public class Startup
@@ -28,9 +28,10 @@
             
             services.AddSingleton<IHttpTransportProvider>(context =>
             {
-                IHttpClientFactory clientFactory = context.GetService<IHttpClientFactory>(); 
+                IHttpClientFactory clientFactory = context.GetService<IHttpClientFactory>();
+                ILogger<HttpTransportProvider> logger = context.GetService<ILogger<HttpTransportProvider>>();
                 
-                return new HttpTransportProvider(clientFactory, GetDefaultTemplates(Configuration));
+                return new HttpTransportProvider(logger, clientFactory, GetDefaultTemplates(Configuration));
             });
 
             services.AddSingleton<BaseRabbitListener>(

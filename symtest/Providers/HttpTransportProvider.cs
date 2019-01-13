@@ -8,6 +8,7 @@ namespace symtest.Providers
     using System.Threading.Tasks;
     using Common.Models;
     using Interfaces;
+    using Microsoft.Extensions.Logging;
 
     public class HttpTransportProvider : IHttpTransportProvider
     {
@@ -15,13 +16,16 @@ namespace symtest.Providers
         private readonly IHttpClientFactory _clientFactory;
         private readonly HttpRequestTemplate[] _defaultTemplates;
         private readonly Random _random;
+        private readonly ILogger _logger;
         
-        public HttpTransportProvider(IHttpClientFactory clientFactory,
+        public HttpTransportProvider(ILogger<HttpTransportProvider> logger,
+                                     IHttpClientFactory clientFactory,
                                      HttpRequestTemplate[] defaultTemplates)
         {
             _clientFactory = clientFactory;
             _client = _clientFactory.CreateClient();
             _random = new Random();
+            _logger = logger;
             
             _defaultTemplates = defaultTemplates != null && defaultTemplates.Length > 0
                 ? defaultTemplates
@@ -46,11 +50,17 @@ namespace symtest.Providers
             CancellationTokenSource cancellation = new CancellationTokenSource(
                 TimeSpan.FromMilliseconds(requestTemplate.Duration));
             
+            _logger.LogInformation($"Executing TEST with URL {requestTemplate.Url} " +
+                                   $"and METHOD {requestTemplate.Method}.");
+            
             var result = await RepeatActionEvery(ExecuteRequest, 
-                                                 TimeSpan.FromSeconds(1),
+                                                 TimeSpan.FromMilliseconds(requestTemplate.Duration / requestTemplate.Density),
                                                  requestTemplate,
                                                  Math.Pow(requestTemplate.Distribution, 1 / requestTemplate.Density),
                                                  cancellation.Token);
+            
+            _logger.LogInformation($"TEST with URL {requestTemplate.Url} and METHOD {requestTemplate.Method}" +
+                                   $" has been executed with result {result}.");
             
             return result;
         }
@@ -87,7 +97,11 @@ namespace symtest.Providers
                     request.Headers.Add(header.Key, header.Value);
                 }
 
+                _logger.LogInformation("Prepared request object. Sending request...");
+                
                 var response = await _client.SendAsync(request);
+                
+                _logger.LogInformation($"Received response with status code {response.StatusCode}.");
 
                 return response.StatusCode;
             }
