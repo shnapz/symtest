@@ -6,7 +6,7 @@ namespace symtest.Common.Models
     public class HttpRequestTemplate
     {
         public string Url { get; set; }
-        public HttpMethod Method { get; set; }
+        public string Method { get; set; }
         
         public int Density { get; set; }
         public double Duration { get; set; }

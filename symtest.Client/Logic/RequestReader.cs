@@ -14,13 +14,13 @@ namespace symtest.Client.Logic
             _fileName = fileName;
         }
 
-        public List<HttpRequestTemplate> GetRequestTemplates()
+        public TransportConfiguration[]  GetRequestTemplates()
         {
             using (StreamReader file = File.OpenText(_fileName))
             {
                 JsonSerializer serializer = new JsonSerializer();
-                List<HttpRequestTemplate> templates = (List<HttpRequestTemplate>)
-                    serializer.Deserialize(file, typeof(List<HttpRequestTemplate>));
+                TransportConfiguration[] templates = (TransportConfiguration[])
+                    serializer.Deserialize(file, typeof(TransportConfiguration[]));
 
                 return templates;
             }

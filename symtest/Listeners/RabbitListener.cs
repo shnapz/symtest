@@ -10,8 +10,8 @@ namespace symtest.Listeners
         private readonly IHttpTransportProvider _httpTransportProvider;
         
         public RabbitListener(IHttpTransportProvider httpTransportProvider,
-            string hostName,
-            string queueName) : base(hostName, queueName)
+                              string hostName,
+                              string queueName) : base(hostName, queueName)
         {
             _httpTransportProvider =
                 httpTransportProvider ?? throw new ArgumentNullException(nameof(httpTransportProvider));

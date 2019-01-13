@@ -3,6 +3,7 @@
     using System;
     using System.IO;
     using System.Text;
+    using Logic;
     using Microsoft.Extensions.Configuration;
     using RabbitMQ.Client;
 
@@ -10,14 +11,10 @@
     {
         static void Main(string[] args)
         {
-            var boolUseDefault = true;
-            
-            if (args.Length > 0)
-            {
-                
-            }
-
             var configuration = GetConfiguration();
+
+            var requestReader = new RequestReader(configuration["ConfigFile"]);
+            var requestTemplates = requestReader.GetRequestTemplates();
             
             var factory = new ConnectionFactory { HostName = configuration["Host"] };
             using(var connection = factory.CreateConnection())

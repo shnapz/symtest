@@ -79,7 +79,7 @@ namespace symtest.Services
 
             if (diceRoll < requestInIntervalProbability)
             {
-                var request = new HttpRequestMessage(requestTemplate.Method,
+                var request = new HttpRequestMessage((HttpMethod)Enum.Parse(typeof(HttpMethod), requestTemplate.Method),
                     requestTemplate.Url);
 
                 foreach (var header in requestTemplate.Headers)
