@@ -72,12 +72,19 @@ namespace symtest.Providers
                                                               CancellationToken cancellationToken)
         {
             while (true)
-            {
+            {                
                 var result = await action(requestTemplate, requestInIntervalProbability);
                 Task task = Task.Delay(interval, cancellationToken);
 
-                await task;
-
+                try
+                {
+                    await task;
+                }
+                catch (TaskCanceledException)
+                {
+                    return null;
+                }
+                
                 return result;
             }
         }
@@ -89,7 +96,7 @@ namespace symtest.Providers
 
             if (diceRoll < requestInIntervalProbability)
             {
-                var request = new HttpRequestMessage((HttpMethod)Enum.Parse(typeof(HttpMethod), requestTemplate.Method),
+                var request = new HttpRequestMessage(new HttpMethod(requestTemplate.Method),
                     requestTemplate.Url);
 
                 foreach (var header in requestTemplate.Headers)
