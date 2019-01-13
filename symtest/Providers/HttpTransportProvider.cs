@@ -58,9 +58,17 @@ namespace symtest.Providers
                                                  requestTemplate,
                                                  Math.Pow(requestTemplate.Distribution, 1 / requestTemplate.Density),
                                                  cancellation.Token);
+            if(result != null)
+            {
+                _logger.LogInformation($"TEST with URL {requestTemplate.Url} and METHOD {requestTemplate.Method}" +
+                                       $" has been executed with {result} result.");
+            }
+            else
+            {
+                _logger.LogInformation($"TEST with URL {requestTemplate.Url} and METHOD {requestTemplate.Method}" +
+                                       " has been executed without result.");  
+            }
             
-            _logger.LogInformation($"TEST with URL {requestTemplate.Url} and METHOD {requestTemplate.Method}" +
-                                   $" has been executed with result {result}.");
             
             return result;
         }
@@ -107,8 +115,9 @@ namespace symtest.Providers
                 _logger.LogInformation("Prepared request object. Sending request...");
                 
                 var response = await _client.SendAsync(request);
-                
+
                 _logger.LogInformation($"Received response with status code {response.StatusCode}.");
+                
 
                 return response.StatusCode;
             }
