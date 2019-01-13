@@ -11,6 +11,7 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+    using Middleware;
     using Providers;
 
     public class Startup
@@ -49,6 +50,7 @@
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseMiddleware(typeof(ExceptionHandlingMiddleware));
             app.UseRabbitListener();
         }
 
