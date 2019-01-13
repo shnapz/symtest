@@ -9,7 +9,7 @@
             {
               "Method": "POST",
               "Density": 1,
-              "Distribution": 0,
+              "Distribution": 0.5,
               "Duration": 1000,
               "Headers": {
               }

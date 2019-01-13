@@ -5,6 +5,7 @@ namespace symtest.Services
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
+    using System.Timers;
     using Common.Models;
     using Providers;
 
@@ -13,12 +14,14 @@ namespace symtest.Services
         private readonly HttpClient _client;
         private readonly IHttpClientFactory _clientFactory;
         private readonly IList<HttpRequestTemplate> _defaultTemplates;
+        private readonly Random _random;
         
         public HttpTransportProvider(IHttpClientFactory clientFactory,
                                      List<HttpRequestTemplate> defaultTemplates)
         {
             _clientFactory = clientFactory;
             _client = _clientFactory.CreateClient();
+            _random = new Random();
             
             _defaultTemplates = defaultTemplates != null && defaultTemplates.Count > 0
                 ? defaultTemplates
@@ -37,17 +40,33 @@ namespace symtest.Services
         
         public async Task<HttpStatusCode> ExecuteTest(HttpRequestTemplate requestTemplate)
         {
-            var request = new HttpRequestMessage(requestTemplate.Method, 
-                requestTemplate.Url);
+            Timer timer = new Timer();
+            timer.Elapsed += new ElapsedEventHandler(ExecuteRequest);
+            timer.Interval = 5000;
+            timer.Enabled = true;
+            
+            double diceRoll = _random.NextDouble();
 
-            foreach (var header in requestTemplate.Headers)
+            if (diceRoll < requestTemplate.Distribution)
             {
-                request.Headers.Add(header.Key, header.Value);
+                var request = new HttpRequestMessage(requestTemplate.Method,
+                    requestTemplate.Url);
+
+                foreach (var header in requestTemplate.Headers)
+                {
+                    request.Headers.Add(header.Key, header.Value);
+                }
+
+                var response = await _client.SendAsync(request);
+
             }
 
-            var response = await _client.SendAsync(request);
-            
             return HttpStatusCode.Accepted;
+        }
+
+        private void ExecuteRequest(object source, ElapsedEventArgs e)
+        {
+            
         }
     }
 }
