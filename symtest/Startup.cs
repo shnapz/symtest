@@ -51,15 +51,12 @@
             app.UseRabbitListener();
         }
 
-        public void InitModules()
+        public HttpRequestTemplate[] GetDefaultTemplates(IConfiguration configuration)
         {
-            
-        }
+            var transportSection = configuration.GetSection("Transport");
+            var transportConfigurationData = transportSection.Get<TransportConfiguration[]>();
 
-        public List<HttpRequestTemplate> GetDefaultTemplates(IConfiguration configuration)
-        {
-
-            return null;
+            return transportConfigurationData[0].Templates;
         }
     }
 }

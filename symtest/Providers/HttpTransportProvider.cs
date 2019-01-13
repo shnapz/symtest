@@ -13,17 +13,17 @@ namespace symtest.Providers
     {
         private readonly HttpClient _client;
         private readonly IHttpClientFactory _clientFactory;
-        private readonly IList<HttpRequestTemplate> _defaultTemplates;
+        private readonly HttpRequestTemplate[] _defaultTemplates;
         private readonly Random _random;
         
         public HttpTransportProvider(IHttpClientFactory clientFactory,
-                                     List<HttpRequestTemplate> defaultTemplates)
+                                     HttpRequestTemplate[] defaultTemplates)
         {
             _clientFactory = clientFactory;
             _client = _clientFactory.CreateClient();
             _random = new Random();
             
-            _defaultTemplates = defaultTemplates != null && defaultTemplates.Count > 0
+            _defaultTemplates = defaultTemplates != null && defaultTemplates.Length > 0
                 ? defaultTemplates
                 : throw new ArgumentException(nameof(defaultTemplates));
         }
