@@ -6,43 +6,33 @@ namespace symtest.Listeners.Base
 
     public abstract class BaseRabbitListener
     {
-        private readonly IConnection _connection;
-        private readonly IModel _channel;
-
-        private readonly string _queueName;
+        protected readonly string QueueName;
+        protected readonly string HostName;
+        protected readonly IConnection Connection;
+        protected readonly IModel Channel;
         
         protected BaseRabbitListener(string hostName, 
             string queueName)
         {
-            _queueName = queueName != null && !string.IsNullOrEmpty(queueName) ? queueName : throw new ArgumentException(nameof(queueName));
+            QueueName = queueName != null && !string.IsNullOrEmpty(queueName) ? queueName : throw new ArgumentException(nameof(queueName));
+            HostName = hostName != null && !string.IsNullOrEmpty(hostName) ? hostName : throw new ArgumentException(nameof(hostName));
             
-            var factory = new ConnectionFactory
-            {
-                HostName = hostName != null && !string.IsNullOrEmpty(hostName) ? hostName : throw new ArgumentException(nameof(hostName))
-            };
-            
-            _connection = factory.CreateConnection();
-            _channel = _connection.CreateModel();
+            var factory = new ConnectionFactory { HostName = HostName };
+            Connection = factory.CreateConnection();
+            Channel = Connection.CreateModel();
         }
         
         public void Register()
         {
-            _channel.QueueDeclare(queue: _queueName, 
-                durable: false,
-                exclusive: false,
-                autoDelete: false,
-                arguments: null);
-
-            var consumer = new EventingBasicConsumer(_channel);
-                        
-            HandleMessage(consumer);
-            
-            _channel.BasicConsume(queue: _queueName, autoAck: true, consumer: consumer);
+            HandleMessage();
         }
 
         public void DeRegister()
-            => _connection.Close();
+        {
+            Channel.Close();
+            Connection.Close();
+        }
 
-        public abstract void HandleMessage(EventingBasicConsumer consumer);
+        protected abstract void HandleMessage();
     }
 }

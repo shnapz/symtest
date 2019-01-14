@@ -8,7 +8,6 @@
     using Logic;
     using Microsoft.Extensions.Configuration;
     using Newtonsoft.Json;
-    using RabbitMQ.Client;
 
     class Program
     {
@@ -24,45 +23,33 @@
                 templates = requestReader.GetRequestTemplates()[0].Templates;
             }
             
-            var factory = new ConnectionFactory { HostName = configuration["Host"] };
-            using(var connection = factory.CreateConnection())
-            using(var channel = connection.CreateModel())
+            var rpcClient = new RpcClient(configuration["Host"], configuration["Queue"]);
+            
+            if (templates != null)
             {
-                channel.QueueDeclare(queue: configuration["Queue"],
-                    durable: false,
-                    exclusive: false,
-                    autoDelete: false,
-                    arguments: null);
-
-                if (templates != null)
+                foreach (var template in templates)
                 {
-                    foreach (var template in templates)
-                    {
-                        string message  = JsonConvert.SerializeObject(template);
-                        var body = Encoding.UTF8.GetBytes(message);
-                        
-                        channel.BasicPublish(exchange: "",
-                            routingKey: configuration["Queue"],
-                            basicProperties: null,
-                            body: body);
-                        
-                        Console.WriteLine($"Sent template with URL: {template.Url} ; Method: {template.Method}");
-                    }
-                }
-                else
-                {
-                    string message = Constants.UseProvidedTemplates;
+                    string message  = JsonConvert.SerializeObject(template);
                     var body = Encoding.UTF8.GetBytes(message);
+
+                    Console.WriteLine($"Sent template with URL: {template.Url} ; Method: {template.Method}");
                     
-                    channel.BasicPublish(exchange: "",
-                        routingKey: configuration["Queue"],
-                        basicProperties: null,
-                        body: body);
+                    var response = rpcClient.Call(body);
+                    
+                    Console.WriteLine($"Response is {response}");
                 }
             }
+            else
+            {
+                string message = Constants.UseProvidedTemplates;
+                var body = Encoding.UTF8.GetBytes(message);
 
+                var response = rpcClient.Call(body);
+            }
+            
             Console.WriteLine("Sent all data to broker.");
             Console.ReadLine();
+            rpcClient.Close();
         }
 
         static IConfiguration GetConfiguration()
