@@ -2,10 +2,12 @@ namespace symtest.Providers
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Threading;
     using System.Threading.Tasks;
+    using Common.Extensions;
     using Common.Models;
     using Interfaces;
     using Microsoft.Extensions.Logging;
@@ -39,13 +41,13 @@ namespace symtest.Providers
             foreach (var requestTemplate in _defaultTemplates)
             {
                 var requestResult = await ExecuteTest(requestTemplate);
-                results.Add(requestResult);
+                results.AddRange(requestResult);
             }
             
             return results;
         }
         
-        public async Task<HttpStatusCode?> ExecuteTest(HttpRequestTemplate requestTemplate)
+        public async Task<List<HttpStatusCode?>> ExecuteTest(HttpRequestTemplate requestTemplate)
         {
             CancellationTokenSource cancellation = new CancellationTokenSource(
                 TimeSpan.FromMilliseconds(requestTemplate.Duration));
@@ -54,14 +56,14 @@ namespace symtest.Providers
                                    $"and METHOD {requestTemplate.Method}.");
             
             var result = await RepeatActionEvery(ExecuteRequest, 
-                                                 TimeSpan.FromMilliseconds(requestTemplate.Duration / requestTemplate.Density),
+                                                 TimeSpan.FromMilliseconds(requestTemplate.Duration / (double)requestTemplate.Density),
                                                  requestTemplate,
-                                                 Math.Pow(requestTemplate.Distribution, 1 / requestTemplate.Density),
+                                                 Math.Pow(requestTemplate.Distribution, (double)1 / (double)requestTemplate.Density),
                                                  cancellation.Token);
             if(result != null)
             {
                 _logger.LogInformation($"TEST with URL {requestTemplate.Url} and METHOD {requestTemplate.Method}" +
-                                       $" has been executed with {result} result.");
+                                       $" has been executed with {string.Join(", ", result.Select(x => x == null ? "REQUEST WAS NOT EXECUTED" : x.ToString()))} result.");
             }
             else
             {
@@ -73,28 +75,36 @@ namespace symtest.Providers
             return result;
         }
 
-        private async Task<HttpStatusCode?> RepeatActionEvery(Func<HttpRequestTemplate, double, Task<HttpStatusCode?>> action, 
+        private async Task<List<HttpStatusCode?>> RepeatActionEvery(Func<HttpRequestTemplate, double, Task<HttpStatusCode?>> action, 
                                                               TimeSpan interval,
                                                               HttpRequestTemplate requestTemplate,
                                                               double requestInIntervalProbability,
                                                               CancellationToken cancellationToken)
         {
+            var results = new List<HttpStatusCode?>();
+            
             while (true)
             {                
                 var result = await action(requestTemplate, requestInIntervalProbability);
-                Task task = Task.Delay(interval, cancellationToken);
 
-                try
+                if (result != null)
                 {
-                    await task;
+                    Task task = Task.Delay(interval, cancellationToken);
+
+                    try
+                    {
+                        await task;
+                    }
+                    catch (TaskCanceledException)
+                    {
+                        break;
+                    }
                 }
-                catch (TaskCanceledException)
-                {
-                    return null;
-                }
-                
-                return result;
+
+                results.Add(result);
             }
+
+            return results;
         }
 
         private async Task<HttpStatusCode?> ExecuteRequest(HttpRequestTemplate requestTemplate,
@@ -121,7 +131,9 @@ namespace symtest.Providers
 
                 return response.StatusCode;
             }
-
+            
+            _logger.LogInformation("REQUEST ARE NOT GOING TO BE EXECUTED!");  
+            
             return null;
         }
     }

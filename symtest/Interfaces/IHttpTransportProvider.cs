@@ -8,6 +8,6 @@ namespace symtest.Interfaces
     public interface IHttpTransportProvider
     {
         Task<List<HttpStatusCode?>> ExecuteAllTests();
-        Task<HttpStatusCode?> ExecuteTest(HttpRequestTemplate requestTemplate);
+        Task<List<HttpStatusCode?>> ExecuteTest(HttpRequestTemplate requestTemplate);
     }
 }
