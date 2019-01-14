@@ -15,6 +15,7 @@ install:
   
 script:
   - dotnet build
+  - dotnet test
   
 services: 
   - docker
