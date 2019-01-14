@@ -15,7 +15,7 @@ RUN dotnet restore
 WORKDIR /app/
 COPY . .
 WORKDIR /app/symtest
-RUN dotnet publish -c Release -o out
+RUN dotnet publish -c Debug -o out
 
 # test application -- see: dotnet-docker-unit-testing.md
 #FROM build AS testrunner
