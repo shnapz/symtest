@@ -1,7 +1,10 @@
 ﻿namespace symtest.Client
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
+    using System.Net;
     using System.Text;
     using Common;
     using Common.Models;
@@ -36,18 +39,26 @@
                     
                     var response = rpcClient.Call(body);
                     
-                    Console.WriteLine($"Response is {response}");
+                    var statusCodes = JsonConvert.DeserializeObject<HttpStatusCode?[]>(response);
+                    
+                    Console.WriteLine($"Response is {string.Join(", ", statusCodes.Select(x => x == null ? "REQUEST WERE NOT EXECUTED" : x.ToString()))}");
                 }
             }
             else
             {
+                Console.WriteLine($"Using templates provided on server...");
+                
                 string message = Constants.UseProvidedTemplates;
                 var body = Encoding.UTF8.GetBytes(message);
-
+                
                 var response = rpcClient.Call(body);
+                
+                var statusCodes = JsonConvert.DeserializeObject<List<HttpStatusCode?>>(response);
+
+                Console.WriteLine($"Response is {string.Join(", ", statusCodes.Select(x => x == null ? "REQUEST WERE NOT EXECUTED" : x.ToString()))}");
             }
             
-            Console.WriteLine("Sent all data to broker.");
+            Console.WriteLine("Sent all data to services...");
             Console.ReadLine();
             rpcClient.Close();
         }

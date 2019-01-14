@@ -1,7 +1,10 @@
 namespace symtest.Listeners
 {
     using System;
+    using System.Collections.Generic;
+    using System.Net;
     using System.Text;
+    using System.Threading.Tasks;
     using Base;
     using Common;
     using Common.Models;
@@ -33,7 +36,7 @@ namespace symtest.Listeners
 
             consumer.Received += (model, ea) =>
             {
-                string response = null;
+                List<HttpStatusCode?> response = null;
 
                 var body = ea.Body;
                 var props = ea.BasicProperties;
@@ -46,23 +49,22 @@ namespace symtest.Listeners
 
                     if (message == Constants.UseProvidedTemplates)
                     {
-                        _httpTransportProvider.ExecuteAllTests();
+                        response = _httpTransportProvider.ExecuteAllTests().Result;
                     }
                     else
                     {
                         HttpRequestTemplate templateToTest = JsonConvert.DeserializeObject<HttpRequestTemplate>(message);
 
-                        response = _httpTransportProvider.ExecuteTest(templateToTest).Result.ToString();
+                        response = _httpTransportProvider.ExecuteTest(templateToTest).Result;
                     }
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(" [.] " + e.Message);
-                    response = "";
+                    response = null;
                 }
                 finally
                 {
-                    var responseBytes = Encoding.UTF8.GetBytes(response);
+                    var responseBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(response));
                     Channel.BasicPublish(exchange: "", routingKey: props.ReplyTo,
                         basicProperties: replyProps, body: responseBytes);
                     Channel.BasicAck(deliveryTag: ea.DeliveryTag,
