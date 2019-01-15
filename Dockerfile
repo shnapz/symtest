@@ -17,12 +17,6 @@ COPY . .
 WORKDIR /app/symtest
 RUN dotnet publish -c Debug -o out
 
-# test application -- see: dotnet-docker-unit-testing.md
-#FROM build AS testrunner
-#WORKDIR /app/tests
-#COPY tests/. .
-#ENTRYPOINT ["dotnet", "test", "--logger:trx"]
-
 FROM microsoft/dotnet:2.2-aspnetcore-runtime-alpine3.8 AS runtime
 WORKDIR /app
 COPY --from=build /app/symtest/out ./

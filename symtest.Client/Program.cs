@@ -46,7 +46,7 @@
             }
             else
             {
-                Console.WriteLine($"Using templates provided on server...");
+                Console.WriteLine("Using templates provided on server...");
                 
                 string message = Constants.UseProvidedTemplates;
                 var body = Encoding.UTF8.GetBytes(message);
@@ -58,8 +58,6 @@
                 Console.WriteLine($"Response is {string.Join(", ", statusCodes.Select(x => x == null ? "REQUEST WERE NOT EXECUTED" : x.ToString()))}");
             }
             
-            Console.WriteLine("Sent all data to services...");
-            Console.ReadLine();
             rpcClient.Close();
         }
 
