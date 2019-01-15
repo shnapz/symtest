@@ -27,27 +27,38 @@ namespace symtest.Tests.symtest.Providers
             _httpClientFactoryMock = null;
             _httpTransportProviderLoggerMock = null;
         }
-
-        [Test]
-        public void Stub()
-        {
-            Assert.IsTrue(true);
-        }
         
         [TestCaseSource(nameof(GetDataForSuccessfulTests))]
-        public Task TestRequests()
+        public async Task SuccessRequestsTests(string param)
         {
             
             
             
-            return null;
+            Assert.IsTrue(true);
         }
 
         public static IEnumerable<TestCaseData> GetDataForSuccessfulTests
         {
             get
             {
-                yield return new TestCaseData();
+                yield return new TestCaseData("dummy_string");
+            }
+        }
+        
+        [TestCaseSource(nameof(GetDataForFailedTests))]
+        public async Task FailedRequestsTests(string param)
+        {
+            
+            
+            
+            Assert.IsTrue(true);
+        }
+
+        public static IEnumerable<TestCaseData> GetDataForFailedTests
+        {
+            get
+            {
+                yield return new TestCaseData("dummy_string");
             }
         }
     }
