@@ -1,0 +1,26 @@
+﻿namespace TasksGenerator.Infrastructure
+{
+    public sealed class AppSettings
+    {
+        public ServiceBusConnection ServiceBusConnection { get; set; }
+        public string ExternalApiAction { get; set; }
+        public CustomHeader CustomHeader { get; set; }
+    }
+
+    public class ServiceBusConnection
+    {
+        public string Host { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
+    }
+    
+    public class CustomHeader
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
+    }
+
+}
+
+
+

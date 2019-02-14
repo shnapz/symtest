@@ -1,0 +1,17 @@
+﻿using System.Net;
+using Microsoft.Extensions.DependencyInjection;
+using TasksGenerator.HttpProvider.Providers;
+using TasksGenerator.Infrastructure.Providers;
+
+namespace TasksGenerator.HttpProvider
+{
+    public static class RegisterHttpProviders
+    {
+        public static IServiceCollection RegisterHttpProvider(this IServiceCollection services)
+        {
+            services.AddTransient<ITestExternalApiProvider<HttpStatusCode>, TestExternalApiHttpProvider>();
+
+            return services;
+        }
+    }
+}
