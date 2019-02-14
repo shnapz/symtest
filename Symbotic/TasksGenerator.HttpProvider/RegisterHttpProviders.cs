@@ -1,5 +1,5 @@
-﻿using System.Net;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System.Net;
 using TasksGenerator.HttpProvider.Providers;
 using TasksGenerator.Infrastructure.Providers;
 

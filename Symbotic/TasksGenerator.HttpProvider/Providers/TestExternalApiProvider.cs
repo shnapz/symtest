@@ -27,24 +27,15 @@ namespace TasksGenerator.HttpProvider.Providers
             var messageExternalApi = new MessageExternalApi() { Body = messageBody };
 
             var client = _httpClientFactory.CreateClient();
-            var path = new Uri($"{endPointUrl}{_appSettings.ExternalApiAction}");
 
-            client.DefaultRequestHeaders.Add( _appSettings.CustomHeader.Name, _appSettings.CustomHeader.Value);
+            Uri path = new Uri($"{endPointUrl}{_appSettings.ExternalApiAction}");
+
+            client.DefaultRequestHeaders.Add(_appSettings.CustomHeader.Name, _appSettings.CustomHeader.Value);
 
             var httpContent = new StringContent(JsonConvert.SerializeObject(messageExternalApi), Encoding.UTF8, "application/json");
 
-            try
-            {
-                HttpResponseMessage response = await client.PostAsync(path, httpContent);
-                return response.StatusCode;
-            }
-            catch (Exception ex)
-            {
-                return HttpStatusCode.InternalServerError;
-                //ToDo Log
-                Console.WriteLine(ex);
-                //throw;  // ToDo delete comment
-            }
+            HttpResponseMessage response = await client.PostAsync(path, httpContent);
+            return response.StatusCode;
         }
     }
 }

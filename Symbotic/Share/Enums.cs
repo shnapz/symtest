@@ -2,7 +2,6 @@
 {
     public sealed class Enums
     {
-        //ToDo enum is redundancy
         public enum TypeTransport
         {
             Empty = 0,

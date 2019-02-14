@@ -1,5 +1,6 @@
 ﻿using Contracts.Tasks;
 using MassTransit;
+using Microsoft.Extensions.Logging;
 using Share.Models.Task;
 using System;
 using System.Collections.Generic;
@@ -14,12 +15,15 @@ namespace TasksGenerator.Infrastructure.ListenerExternal
     {
         private readonly ITestExternalApiProvider<HttpStatusCode> _testExternalApiProvider;
         private readonly IBusControl _serviceBus;
-        private readonly  
+        private readonly ILogger _logger;
 
-        public ListenerExternalApi(ITestExternalApiProvider<HttpStatusCode> testExternalApiProvider, IBusControl serviceBus)
+        public ListenerExternalApi(ITestExternalApiProvider<HttpStatusCode> testExternalApiProvider,
+                                   IBusControl serviceBus,
+                                   ILogger<ListenerExternalApi> logger)
         {
             _testExternalApiProvider = testExternalApiProvider;
             _serviceBus = serviceBus;
+            _logger = logger;
         }
 
         public async Task ExecuteTestApi(ITaskCommand taskCommand)
@@ -31,8 +35,17 @@ namespace TasksGenerator.Infrastructure.ListenerExternal
             for (int i = 0; i < taskCommand.RequestQuantity; i++)
             {
                 var apiEndPointUrl = GetRendomUrl(taskCommand.EndPoints, random);
+                HttpStatusCode statusCode = 0;
 
-                var statusCode = await _testExternalApiProvider.SendRequestExternalApiAsync(taskCommand.Message, apiEndPointUrl);
+                try
+                {
+                    statusCode = await _testExternalApiProvider.SendRequestExternalApiAsync(taskCommand.Message, apiEndPointUrl);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogInformation(ex, $"Error request External Api:{apiEndPointUrl}");
+                    statusCodeList.Add(HttpStatusCode.InternalServerError);
+                }
 
                 statusCodeList.Add(statusCode);
             }
@@ -51,8 +64,11 @@ namespace TasksGenerator.Infrastructure.ListenerExternal
         {
             return (from httpStatusCode in httpStatusCodes
                     group httpStatusCode by httpStatusCode into statusCode
-                    select new TaskStatistic() { StatusCode = statusCode.Key,
-                                                 StatusCodesQuantity = statusCode.Count() }).AsEnumerable();
+                    select new TaskStatistic()
+                    {
+                        StatusCode = statusCode.Key,
+                        StatusCodesQuantity = statusCode.Count()
+                    }).AsEnumerable();
         }
     }
 }

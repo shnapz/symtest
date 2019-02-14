@@ -1,4 +1,3 @@
-using System;
 using Xunit;
 
 namespace Client.IntegrationTesting.ClientApi.Controllers
