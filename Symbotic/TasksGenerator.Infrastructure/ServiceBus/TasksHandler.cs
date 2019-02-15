@@ -7,6 +7,9 @@ using TasksGenerator.Infrastructure.ListenerExternal;
 
 namespace TasksGenerator.Infrastructure.ServiceBus
 {
+    /// <summary>
+    /// Getting tasks and start task executing
+    /// </summary>
     internal sealed class TasksHandler : IConsumer<ITaskCommand>
     {
         private readonly IListenerExternalApi _listenerExternalApi;
@@ -30,7 +33,7 @@ namespace TasksGenerator.Infrastructure.ServiceBus
 
             await _listenerExternalApi.ExecuteTestApi(taskCommand);
 
-            _logger.LogInformation("TaskCommand created.");
+            _logger.LogInformation("Task command created.");
         }
     }
 }

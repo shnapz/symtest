@@ -22,6 +22,11 @@ namespace Client.Controllers
             _appSettings = appSettings.Value;
         }
 
+        /// <summary>
+        /// Creating a task and send the task to the queue service bus.
+        /// </summary>
+        /// <param name="taskModel"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("Create")]
         public async Task<IActionResult> CreateTask([FromBody] TaskModel taskModel)

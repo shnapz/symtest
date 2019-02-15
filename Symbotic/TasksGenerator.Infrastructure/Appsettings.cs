@@ -5,6 +5,7 @@
         public ServiceBusConnection ServiceBusConnection { get; set; }
         public string ExternalApiAction { get; set; }
         public CustomHeader CustomHeader { get; set; }
+        public RabbitMqSettings RabbitMqSettings { get; set; }
     }
 
     public class ServiceBusConnection
@@ -18,5 +19,10 @@
     {
         public string Name { get; set; }
         public string Value { get; set; }
+    }
+
+    public class RabbitMqSettings
+    {
+        public ushort PrefetchCount { get; set; }
     }
 }

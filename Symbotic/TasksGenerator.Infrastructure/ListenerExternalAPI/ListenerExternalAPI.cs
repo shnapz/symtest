@@ -11,6 +11,9 @@ using TasksGenerator.Infrastructure.Providers;
 
 namespace TasksGenerator.Infrastructure.ListenerExternal
 {
+    /// <summary>
+    /// Sending a requests to external Api.
+    /// </summary>
     public sealed class ListenerExternalApi : IListenerExternalApi
     {
         private readonly ITestExternalApiProvider<HttpStatusCode> _testExternalApiProvider;
@@ -51,9 +54,16 @@ namespace TasksGenerator.Infrastructure.ListenerExternal
                 statusCodeList.Add(statusCode);
             }
 
+            //The event about executing all requests. Passing statistic of requests.
             await _serviceBus.Publish(new TaskExecutedEvent() { Statistic = GetStatistic(statusCodeList) });
         }
 
+        /// <summary>
+        /// Getting Url endpoints randomly.
+        /// </summary>
+        /// <param name="endPoints">Url endpoints</param>
+        /// <param name="random">Random</param>
+        /// <returns></returns>
         private string GetRendomUrl(IEnumerable<ApiEndPoint> endPoints, Random random)
         {
             int indexEndPoints = random.Next(0, endPoints.Count());
@@ -61,6 +71,11 @@ namespace TasksGenerator.Infrastructure.ListenerExternal
             return endPoints.ToArray()[indexEndPoints].EndpointUrl;
         }
 
+        /// <summary>
+        /// Creating requests statistics
+        /// </summary>
+        /// <param name="httpStatusCodes">Status codes</param>
+        /// <returns>TaskStatistic</returns>
         private IEnumerable<TaskStatistic> GetStatistic(ICollection<HttpStatusCode> httpStatusCodes)
         {
             return (from httpStatusCode in httpStatusCodes

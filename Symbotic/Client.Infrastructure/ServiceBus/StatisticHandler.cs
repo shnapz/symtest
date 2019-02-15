@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Client.Infrastructure.ServiceBus
 {
+    /// <summary>
+    /// Hanling TaskExecutedEvent. Statistics output
+    /// </summary>
     public sealed class StatisticHandler : IConsumer<ITaskExecutedEvent>
     {
         private readonly ILogger _logger;
