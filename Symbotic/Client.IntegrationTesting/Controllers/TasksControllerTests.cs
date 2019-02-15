@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Share;
 using Xunit;
 
 namespace Client.IntegrationTesting.Controllers
@@ -27,14 +28,16 @@ namespace Client.IntegrationTesting.Controllers
                                       new ApiEndPoint() { EndpointUrl = "http://localhost:51831/" }
                                     };
 
-            var taskModel = new TaskModel() { EndPoints = endPoints };
+            var taskModel = new TaskModel() { EndPoints = endPoints,
+                                              RequestQuantity = 10,
+                                              Transport = Enums.TypeTransport.Http,
+                                              Message = "Hello World"};
 
             var httpContent = new StringContent(JsonConvert.SerializeObject(taskModel), Encoding.UTF8, "application/json");
-            var httpResponse = await _fixture.Client.PostAsync("api/Tasks/Create", httpContent);
+            var httpResponse = await _fixture.Client.PostAsync("/api/Tasks/Create", httpContent);
 
             httpResponse.EnsureSuccessStatusCode();
-
-            Assert.True(true, "should not be prime");
+            
         }
     }
 }

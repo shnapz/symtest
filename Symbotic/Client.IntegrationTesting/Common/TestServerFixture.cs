@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.PlatformAbstractions;
 using System;
+using System.IO;
 using System.Net.Http;
 
 namespace Client.IntegrationTesting.Common
@@ -15,21 +16,25 @@ namespace Client.IntegrationTesting.Common
 
         public TestServerFixture()
         {
-            var projectDir = System.IO.Directory.GetCurrentDirectory();
-
+        
             var builder = new WebHostBuilder()
+                .UseContentRoot(GetContentRootPath())
                 .UseEnvironment("Development")
-                //.UseContentRoot(projectDir)
-                .UseConfiguration(new ConfigurationBuilder()
-                    //.SetBasePath(projectDir)
-                    .AddJsonFile("appsettings.Development.json")
-                    .Build())
                 .UseStartup<Startup>();
 
             _testServer = new TestServer(builder);
             Client = _testServer.CreateClient();
         }
 
+        private string GetContentRootPath()
+        {
+            string testProjectPath = PlatformServices.Default.Application.ApplicationBasePath;
+
+            var relativePathToWebProject = @"..\..\..\..\..\Symbotic\Client";
+
+            return Path.Combine(testProjectPath, relativePathToWebProject);
+        }
+        
         public void Dispose()
         {
             Dispose(true);
