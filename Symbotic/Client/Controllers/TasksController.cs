@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace Client.Controllers
@@ -37,7 +36,7 @@ namespace Client.Controllers
                 return BadRequest("Haven't set any EndPoints.");
             }
 
-            if (taskModel.RequestQuantity == 0 )
+            if (taskModel.RequestQuantity == 0)
             {
                 return BadRequest("Request quantity should be more than 0");
             }
@@ -47,14 +46,12 @@ namespace Client.Controllers
                 return new BadRequestObjectResult(ModelState);
             }
 
-
-
             var sendEndpoint = await _busControl.GetSendEndpoint(
                                   new Uri($"{_appSettings.ServiceBusConnection.Host}{Contracts.ServiceBusQueues.RequestGenerator}"));
 
             await sendEndpoint.Send(new TaskCommand
             {
-                RequestQuantity = taskModel.RequestQuantity,   
+                RequestQuantity = taskModel.RequestQuantity,
                 Transport = taskModel.Transport,
                 EndPoints = taskModel.EndPoints,
                 Message = taskModel.Message
@@ -62,9 +59,5 @@ namespace Client.Controllers
 
             return Ok("Task has created successfully.");
         }
-
-
-        
-
     }
 }

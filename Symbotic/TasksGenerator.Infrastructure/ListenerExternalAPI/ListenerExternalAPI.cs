@@ -31,11 +31,12 @@ namespace TasksGenerator.Infrastructure.ListenerExternal
             ICollection<HttpStatusCode> statusCodeList = new List<HttpStatusCode>(taskCommand.RequestQuantity);
 
             var random = new Random();
+            HttpStatusCode statusCode = 0;
+            string apiEndPointUrl;
 
             for (int i = 0; i < taskCommand.RequestQuantity; i++)
             {
-                var apiEndPointUrl = GetRendomUrl(taskCommand.EndPoints, random);
-                HttpStatusCode statusCode = 0;
+                apiEndPointUrl = GetRendomUrl(taskCommand.EndPoints, random);
 
                 try
                 {
