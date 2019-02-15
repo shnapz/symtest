@@ -37,6 +37,7 @@ namespace TasksGenerator.Infrastructure
                     configurator.ReceiveEndpoint(rabbitMqHost, ServiceBusQueues.RequestGenerator, endpointConfigurator =>
                     {
                         endpointConfigurator.LoadFrom(provider);
+                        endpointConfigurator.PrefetchCount = 1;
                     });
                 }));
 

@@ -30,7 +30,7 @@ namespace TasksGenerator.Infrastructure.ServiceBus
 
             await _listenerExternalApi.ExecuteTestApi(taskCommand);
 
-            _logger.LogInformation($"TaskCommand created.");
+            _logger.LogInformation("TaskCommand created.");
         }
     }
 }
