@@ -27,7 +27,7 @@ namespace TasksGenerator.Infrastructure.ServiceBus
 
             if (taskCommand == null)
             {
-                _logger.LogInformation($"Error convert context.Message to {typeof(ITaskCommand)}");
+                _logger.LogInformation($"Error convert context.Message to {nameof(ITaskCommand)}");
                 throw new NullReferenceException();
             }
 

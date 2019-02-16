@@ -1,7 +1,7 @@
 ﻿namespace Share.Models.Task
 {
-    public sealed class MessageExternalApi
+    public sealed class MessageExternalApi : IMessageExternalApi
     {
-        public string Body { get; set; }
+        public string Message { get; set; }
     }
 }

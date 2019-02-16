@@ -9,7 +9,7 @@ namespace TasksGenerator.HttpProvider
     {
         public static IServiceCollection RegisterHttpProvider(this IServiceCollection services)
         {
-            services.AddTransient<ITestExternalApiProvider<HttpStatusCode>, TestExternalApiHttpProvider>();
+            services.AddTransient<ITransportProvider<HttpStatusCode>, HttpTransportProvider>();
 
             return services;
         }

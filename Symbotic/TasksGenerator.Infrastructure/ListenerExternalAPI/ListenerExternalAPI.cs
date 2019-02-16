@@ -16,15 +16,15 @@ namespace TasksGenerator.Infrastructure.ListenerExternal
     /// </summary>
     public sealed class ListenerExternalApi : IListenerExternalApi
     {
-        private readonly ITestExternalApiProvider<HttpStatusCode> _testExternalApiProvider;
+        private readonly ITransportProvider<HttpStatusCode> _httpTransport;
         private readonly IBusControl _serviceBus;
         private readonly ILogger _logger;
 
-        public ListenerExternalApi(ITestExternalApiProvider<HttpStatusCode> testExternalApiProvider,
+        public ListenerExternalApi(ITransportProvider<HttpStatusCode> testExternalApiProvider,
                                    IBusControl serviceBus,
                                    ILogger<ListenerExternalApi> logger)
         {
-            _testExternalApiProvider = testExternalApiProvider;
+            _httpTransport = testExternalApiProvider;
             _serviceBus = serviceBus;
             _logger = logger;
         }
@@ -37,25 +37,28 @@ namespace TasksGenerator.Infrastructure.ListenerExternal
             HttpStatusCode statusCode = 0;
             string apiEndPointUrl;
 
+            var messageExternalApi = new MessageExternalApi() { Message = taskCommand.Message };
+
             for (int i = 0; i < taskCommand.RequestQuantity; i++)
             {
                 apiEndPointUrl = GetRendomUrl(taskCommand.EndPoints, random);
 
                 try
                 {
-                    statusCode = await _testExternalApiProvider.SendRequestExternalApiAsync(taskCommand.Message, apiEndPointUrl);
+                    statusCode = await _httpTransport.SendRequestExternalApiAsync(messageExternalApi, apiEndPointUrl);
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogInformation(ex, $"Error request External Api:{apiEndPointUrl}");
+                    _logger.LogInformation(ex, $"Error request external Api:{apiEndPointUrl}");
                     statusCodeList.Add(HttpStatusCode.InternalServerError);
                 }
 
                 statusCodeList.Add(statusCode);
             }
-
+            
             //The event about executing all requests. Passing statistic of requests.
             await _serviceBus.Publish(new TaskExecutedEvent() { Statistic = GetStatistic(statusCodeList) });
+
         }
 
         /// <summary>

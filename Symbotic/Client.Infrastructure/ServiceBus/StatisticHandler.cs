@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Client.Infrastructure.ServiceBus
 {
     /// <summary>
-    /// Hanling TaskExecutedEvent. Statistics output
+    /// Handling TaskExecutedEvent. Statistics output
     /// </summary>
     public sealed class StatisticHandler : IConsumer<ITaskExecutedEvent>
     {
@@ -24,7 +24,10 @@ namespace Client.Infrastructure.ServiceBus
 
             if (taskExecutedEvent == null)
             {
-                throw new NullReferenceException();
+                var logMessage  = $"{nameof(taskExecutedEvent)} mustn't be null .";
+
+                _logger.LogInformation(logMessage);
+                throw new NullReferenceException(logMessage);
             }
 
             _logger.LogInformation("Calls statistics:");

@@ -22,6 +22,7 @@ namespace Client.Controllers
             _appSettings = appSettings.Value;
         }
 
+
         /// <summary>
         /// Creating a task and send the task to the queue service bus.
         /// </summary>
