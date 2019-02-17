@@ -31,6 +31,8 @@ namespace TasksGenerator.Infrastructure.ListenerExternal
 
         public async Task ExecuteTestApi(ITaskCommand taskCommand)
         {
+            await _serviceBus.Publish(new StartExecutingTestEvent());
+
             ICollection<HttpStatusCode> statusCodeList = new List<HttpStatusCode>(taskCommand.RequestQuantity);
 
             var random = new Random();

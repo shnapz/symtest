@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Client.Infrastructure.ServiceBus
 {
     /// <summary>
-    /// Handling TaskExecutedEvent. Statistics output
+    /// Handling event TaskExecutedEvent. Statistics output
     /// </summary>
     public sealed class StatisticHandler : IConsumer<ITaskExecutedEvent>
     {

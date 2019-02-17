@@ -14,6 +14,7 @@ namespace Client.Infrastructure
             services.AddMassTransit(x =>
             {
                 x.AddConsumer<StatisticHandler>();
+                x.AddConsumer<StartExecutingTestHandler>();
             });
 
             services.AddSingleton(provider => Bus.Factory.CreateUsingRabbitMq(
