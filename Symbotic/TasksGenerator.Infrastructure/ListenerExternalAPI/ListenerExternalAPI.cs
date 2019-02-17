@@ -55,10 +55,9 @@ namespace TasksGenerator.Infrastructure.ListenerExternal
 
                 statusCodeList.Add(statusCode);
             }
-            
+
             //The event about executing all requests. Passing statistic of requests.
             await _serviceBus.Publish(new TaskExecutedEvent() { Statistic = GetStatistic(statusCodeList) });
-
         }
 
         /// <summary>

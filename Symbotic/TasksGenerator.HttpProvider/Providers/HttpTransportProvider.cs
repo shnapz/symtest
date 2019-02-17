@@ -23,19 +23,16 @@ namespace TasksGenerator.HttpProvider.Providers
         {
             _httpClientFactory = httpClientFactory;
             _appSettings = appSettings.Value;
-
         }
 
         public async Task<HttpStatusCode> SendRequestExternalApiAsync(IMessageExternalApi messageBody, string endPointUrl)
         {
-            
             Uri path = new Uri($"{endPointUrl}{_appSettings.ExternalApiAction}");
 
             using (HttpClient client = _httpClientFactory.CreateClient())
             {
-
                 client.DefaultRequestHeaders.Add(_appSettings.CustomHeader.Name, _appSettings.CustomHeader.Value);
-                
+
                 var httpContent = new StringContent(JsonConvert.SerializeObject(messageBody), Encoding.UTF8, "application/json");
 
                 HttpResponseMessage response = await client.PostAsync(path, httpContent);

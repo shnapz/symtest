@@ -2,26 +2,23 @@
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Share;
+using Share.Models.Task;
 using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Text;
-using Share;
+using System.Threading;
 using TasksGenerator.Infrastructure.ListenerExternal;
 using TasksGenerator.Infrastructure.Providers;
 using Xunit;
-using Share.Models.Task;
 
 namespace TasksGenerator.Test
 {
-
-
     public class ListenerExternalApiTest
     {
-        readonly Mock<ITransportProvider<HttpStatusCode>> _httpTransportMock;
-        readonly Mock<IBusControl> _serviceBusMock;
-        readonly Mock<ILogger<ListenerExternalApi>> _loggerMock;
-
+        private readonly Mock<ITransportProvider<HttpStatusCode>> _httpTransportMock;
+        private readonly Mock<IBusControl> _serviceBusMock;
+        private readonly Mock<ILogger<ListenerExternalApi>> _loggerMock;
 
         public ListenerExternalApiTest()
         {
@@ -30,11 +27,9 @@ namespace TasksGenerator.Test
             _loggerMock = new Mock<ILogger<ListenerExternalApi>>();
         }
 
-
         [Fact]
         public void SendRequestExternalApiAsyncRunRequestQuantityTimes()
         {
-
             // Arrange
             IEnumerable<ApiEndPoint> endPoints = new List<ApiEndPoint>()
             { new ApiEndPoint() { EndpointUrl = "http://localhost:51830/" },
@@ -48,8 +43,6 @@ namespace TasksGenerator.Test
                 Transport = Enums.TypeTransport.Http,
                 Message = "Hello World"
             };
-
-            var messageExternalApi = new MessageExternalApi() { Message = taskModel.Message };
 
             //Act
             _httpTransportMock.Setup
@@ -68,7 +61,30 @@ namespace TasksGenerator.Test
                                                         );
         }
 
+        [Fact]
+        public void TaskExecutedEventWasPublishing()
+        {
+            // Arrange
+            IEnumerable<ApiEndPoint> endPoints = new List<ApiEndPoint>()
+            { new ApiEndPoint() { EndpointUrl = "http://localhost:51830/" },
+              new ApiEndPoint() { EndpointUrl = "http://localhost:51831/" }
+            };
 
+            var taskModel = new TaskCommand()
+            {
+                EndPoints = endPoints,
+                RequestQuantity = 10,
+                Transport = Enums.TypeTransport.Http,
+                Message = "Hello World"
+            };
 
+            //Act
+            var listenerExternalApi = new ListenerExternalApi(_httpTransportMock.Object, _serviceBusMock.Object, _loggerMock.Object);
+
+            listenerExternalApi.ExecuteTestApi(taskModel).Wait();
+
+            //Assert
+            _serviceBusMock.Verify(b => b.Publish(It.IsAny<TaskExecutedEvent>(), It.IsAny<CancellationToken>()), Times.AtLeastOnce);
+        }
     }
 }
