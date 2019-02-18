@@ -2,6 +2,6 @@
 {
     public interface IMessageExternalApi
     {
-        string Message { get;}
+        string Message { get; }
     }
 }

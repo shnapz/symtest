@@ -1,9 +1,6 @@
 ﻿using Contracts.Tasks;
 using MassTransit;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Client.Infrastructure.ServiceBus
@@ -28,6 +25,3 @@ namespace Client.Infrastructure.ServiceBus
         }
     }
 }
-
-
-

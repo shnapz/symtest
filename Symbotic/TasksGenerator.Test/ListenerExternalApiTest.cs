@@ -62,7 +62,7 @@ namespace TasksGenerator.Test
         }
 
         [Fact]
-        public void TaskExecutedEventWasPublishing()
+        public void StartExecutingTestEventWasPublishing()
         {
             // Arrange
             IEnumerable<ApiEndPoint> endPoints = new List<ApiEndPoint>()
@@ -84,7 +84,36 @@ namespace TasksGenerator.Test
             listenerExternalApi.ExecuteTestApi(taskModel).Wait();
 
             //Assert
+            _serviceBusMock.Verify(b => b.Publish(It.IsAny<StartExecutingTestEvent>(), It.IsAny<CancellationToken>()), Times.AtLeastOnce);
+        }
+
+        [Fact]
+        public void TaskExecutedEventWasPublishing()
+        {
+            // Arrange
+            IEnumerable<ApiEndPoint> endPoints = new List<ApiEndPoint>()
+            { new ApiEndPoint() { EndpointUrl = "http://localhost:51830/" },
+                new ApiEndPoint() { EndpointUrl = "http://localhost:51831/" }
+            };
+
+            var taskModel = new TaskCommand()
+            {
+                EndPoints = endPoints,
+                RequestQuantity = 10,
+                Transport = Enums.TypeTransport.Http,
+                Message = "Hello World"
+            };
+
+            //Act
+            var listenerExternalApi = new ListenerExternalApi(_httpTransportMock.Object, _serviceBusMock.Object, _loggerMock.Object);
+
+            listenerExternalApi.ExecuteTestApi(taskModel).Wait();
+
+            //Assert
             _serviceBusMock.Verify(b => b.Publish(It.IsAny<TaskExecutedEvent>(), It.IsAny<CancellationToken>()), Times.AtLeastOnce);
         }
+
+
+
     }
 }

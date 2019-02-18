@@ -16,7 +16,6 @@ namespace Client.IntegrationTesting.Common
 
         public TestServerFixture()
         {
-        
             var builder = new WebHostBuilder()
                 .UseContentRoot(GetContentRootPath())
                 .UseEnvironment("Development")
@@ -34,7 +33,7 @@ namespace Client.IntegrationTesting.Common
 
             return Path.Combine(testProjectPath, relativePathToWebProject);
         }
-        
+
         public void Dispose()
         {
             Dispose(true);

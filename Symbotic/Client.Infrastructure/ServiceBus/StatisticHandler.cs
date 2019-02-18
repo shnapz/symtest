@@ -24,7 +24,7 @@ namespace Client.Infrastructure.ServiceBus
 
             if (taskExecutedEvent == null)
             {
-                var logMessage  = $"{nameof(taskExecutedEvent)} mustn't be null .";
+                var logMessage = $"{nameof(taskExecutedEvent)} mustn't be null .";
 
                 _logger.LogInformation(logMessage);
                 throw new NullReferenceException(logMessage);
