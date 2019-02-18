@@ -47,7 +47,7 @@ namespace TasksGenerator.Test
             //Act
             _httpTransportMock.Setup
                 (x => x.SendRequestExternalApiAsync(It.IsAny<MessageExternalApi>(), It.IsAny<String>()));
-                //.ReturnsAsync(It.IsAny<HttpStatusCode>());
+            //.ReturnsAsync(It.IsAny<HttpStatusCode>());
 
             var listenerExternalApi = new ListenerExternalApi(_httpTransportMock.Object, _serviceBusMock.Object, _loggerMock.Object);
 
@@ -113,8 +113,6 @@ namespace TasksGenerator.Test
             _serviceBusMock.Verify(b => b.Publish(It.IsAny<TaskExecutedEvent>(), It.IsAny<CancellationToken>()), Times.AtLeastOnce);
         }
 
-
-
         [Fact]
         public void SendRequestExternalApiAsyncReturnStatusCode()
         {
@@ -142,8 +140,7 @@ namespace TasksGenerator.Test
             listenerExternalApi.ExecuteTestApi(taskModel).Wait();
 
             //Assert
-           _httpTransportMock.Verify(x => x.SendRequestExternalApiAsync(It.IsAny<MessageExternalApi>(), It.IsAny<String>()));
+            _httpTransportMock.Verify(x => x.SendRequestExternalApiAsync(It.IsAny<MessageExternalApi>(), It.IsAny<String>()));
         }
-
     }
 }

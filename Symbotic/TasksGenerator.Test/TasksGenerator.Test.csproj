@@ -16,4 +16,8 @@
     <ProjectReference Include="..\TasksGenerator.HttpProvider\TasksGenerator.HttpProvider.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Common\" />
+  </ItemGroup>
+
 </Project>
