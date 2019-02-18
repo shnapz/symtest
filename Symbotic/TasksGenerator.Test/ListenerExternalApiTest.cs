@@ -46,8 +46,8 @@ namespace TasksGenerator.Test
 
             //Act
             _httpTransportMock.Setup
-                (x => x.SendRequestExternalApiAsync(It.IsAny<MessageExternalApi>(), It.IsAny<String>()))
-                .ReturnsAsync(It.IsAny<HttpStatusCode>());
+                (x => x.SendRequestExternalApiAsync(It.IsAny<MessageExternalApi>(), It.IsAny<String>()));
+                //.ReturnsAsync(It.IsAny<HttpStatusCode>());
 
             var listenerExternalApi = new ListenerExternalApi(_httpTransportMock.Object, _serviceBusMock.Object, _loggerMock.Object);
 
@@ -114,6 +114,36 @@ namespace TasksGenerator.Test
         }
 
 
+
+        [Fact]
+        public void SendRequestExternalApiAsyncReturnStatusCode()
+        {
+            // Arrange
+            IEnumerable<ApiEndPoint> endPoints = new List<ApiEndPoint>()
+            { new ApiEndPoint() { EndpointUrl = "http://localhost:51830/" },
+                new ApiEndPoint() { EndpointUrl = "http://localhost:51831/" }
+            };
+
+            var taskModel = new TaskCommand()
+            {
+                EndPoints = endPoints,
+                RequestQuantity = 10,
+                Transport = Enums.TypeTransport.Http,
+                Message = "Hello World"
+            };
+
+            //Act
+            _httpTransportMock.Setup
+                (x => x.SendRequestExternalApiAsync(It.IsAny<MessageExternalApi>(), It.IsAny<String>()))
+                  .ReturnsAsync(It.IsAny<HttpStatusCode>());
+
+            var listenerExternalApi = new ListenerExternalApi(_httpTransportMock.Object, _serviceBusMock.Object, _loggerMock.Object);
+
+            listenerExternalApi.ExecuteTestApi(taskModel).Wait();
+
+            //Assert
+           _httpTransportMock.Verify(x => x.SendRequestExternalApiAsync(It.IsAny<MessageExternalApi>(), It.IsAny<String>()));
+        }
 
     }
 }
