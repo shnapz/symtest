@@ -54,7 +54,6 @@ namespace TasksGenerator.Infrastructure.ListenerExternal
                 {
                     statusCodeList.Add(HttpStatusCode.InternalServerError);
                     _logger.LogInformation(ex, $"Error request external Api:{apiEndPointUrl}");
-
                 }
             }
 
