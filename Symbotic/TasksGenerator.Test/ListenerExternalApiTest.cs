@@ -47,7 +47,7 @@ namespace TasksGenerator.Test
             //Act
             _httpTransportMock.Setup
                 (x => x.SendRequestExternalApiAsync(It.IsAny<MessageExternalApi>(), It.IsAny<String>()));
-            
+
             var listenerExternalApi = new ListenerExternalApi(_httpTransportMock.Object, _serviceBusMock.Object, _loggerMock.Object);
 
             listenerExternalApi.ExecuteTestApi(taskModel).Wait();

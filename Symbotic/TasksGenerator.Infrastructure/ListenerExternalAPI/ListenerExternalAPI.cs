@@ -48,14 +48,14 @@ namespace TasksGenerator.Infrastructure.ListenerExternal
                 try
                 {
                     statusCode = await _httpTransport.SendRequestExternalApiAsync(messageExternalApi, apiEndPointUrl);
+                    statusCodeList.Add(statusCode);
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogInformation(ex, $"Error request external Api:{apiEndPointUrl}");
                     statusCodeList.Add(HttpStatusCode.InternalServerError);
-                }
+                    _logger.LogInformation(ex, $"Error request external Api:{apiEndPointUrl}");
 
-                statusCodeList.Add(statusCode);
+                }
             }
 
             //The event about executing all requests. Passing statistic of requests.
