@@ -33,7 +33,7 @@ namespace TasksGenerator.Test
             // Arrange
             IEnumerable<ApiEndPoint> endPoints = new List<ApiEndPoint>()
             { new ApiEndPoint() { EndpointUrl = "http://localhost:51830/" },
-                new ApiEndPoint() { EndpointUrl = "http://localhost:51831/" }
+              new ApiEndPoint() { EndpointUrl = "http://localhost:51831/" }
             };
 
             var taskModel = new TaskCommand()
@@ -92,7 +92,7 @@ namespace TasksGenerator.Test
             // Arrange
             IEnumerable<ApiEndPoint> endPoints = new List<ApiEndPoint>()
             { new ApiEndPoint() { EndpointUrl = "http://localhost:51830/" },
-                new ApiEndPoint() { EndpointUrl = "http://localhost:51831/" }
+              new ApiEndPoint() { EndpointUrl = "http://localhost:51831/" }
             };
 
             var taskModel = new TaskCommand()
